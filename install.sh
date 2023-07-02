@@ -48,7 +48,7 @@ cpu=$(lscpu | grep "Vendor ID:" | awk '{print $NF}')
 if [[ ${cpu} == *"AuthenticAMD"* ]]; then ucode="amd-ucode"; else ucode="intel-ucode"; fi
 gpu=$(lspci | grep "VGA compatible controller:" | awk '{print $5}')
 if [[ -d /sys/firmware/efi/efivars ]]; then boot="UEFI"; else boot="BIOS"; fi
-ram=$(echo "$(echo "$(cat /proc/meminfo)" | grep "MemTotal" | awk '{print $2}') / 1000000" | bc)
+ram=$(awk '/MemTotal/ {printf "%d\n", int($2/1000000)}' /proc/meminfo)
 
 # ask questions
 choosedisk()
@@ -147,11 +147,8 @@ executeinstall()
 
     # tweaking Pacman (faster basestrap download + prettier output)
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
+    sed -i 's/^#VerbosePkgLists.*/VerbosePkgLists/' /etc/pacman.conf
     sed -i 's/^#Color/Color\nILoveCandy/' /etc/pacman.conf
-    # tweaking Pacman for soon-to-be chrooted system
-    mkdir -p /mnt/etc
-    cp -f configs/pacman.conf /mnt/etc
-    # wget https://github.com/archlinux/svntogit-packages/raw/packages/pacman-mirrorlist/trunk/mirrorlist -O /mnt/etc/pacman.d/mirrorlist-arch
     
     # installing needed libraries
     pacman -Sy --noconfirm wget gdisk
@@ -161,7 +158,15 @@ executeinstall()
                    btrfs-progs linux-zen linux-zen-headers linux-firmware \
                    ntfs-3g dhcpcd-dinit networkmanager-dinit cups-dinit hplip \
                    system-config-printer \
-                   pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber zramen-dinit
+                   pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
+                   
+    # tweaking Pacman for soon-to-be chrooted system
+    cp -f configs/pacman.conf /mnt/etc
+    
+    # arch support is optional
+    # wget https://gitlab.archlinux.org/archlinux/packaging/packages/pacman-mirrorlist/-/raw/main/mirrorlist -O /mnt/etc/pacman.d/mirrorlist-arch
+    # THE LINK BELOW IS OUTDATED, BECAUSE ARCH HAS STOPPED USING SVN IN FAVOR OF GIT
+    # wget https://github.com/archlinux/svntogit-packages/raw/packages/pacman-mirrorlist/trunk/mirrorlist -O /mnt/etc/pacman.d/mirrorlist-arch
 
     # shortcut for configuring doas
     printf "permit persist keepenv $username as root\npermit nopass $username as root cmd /usr/bin/poweroff\npermit nopass $username as root cmd /usr/bin/reboot\n" > /mnt/etc/doas.conf
