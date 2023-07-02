@@ -47,8 +47,7 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi --bootloader-id=Artix
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # enable arch linux repo support
-pacman -Sy --noconfirm artix-archlinux-support
 pacman-key --init populate archlinux
 
 # remove temp vars as they're now useless
-rm -rf /tmpvars && reboot
+rm -rf /tmpvars && /usr/bin/reboot

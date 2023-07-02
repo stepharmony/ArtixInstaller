@@ -107,7 +107,7 @@ executeinstall()
     # swapoff -a $diskdir
 
     # partition management
-    printf "label: gpt\n,512M,U\n,,L\n" | sfdisk ${diskdir}
+    printf "label: gpt\n,512M,U\n,,L\n" | sfdisk --no-reread ${diskdir}
     mkfs.vfat -F32 -n "EFI" ${efipart}
     mkfs.btrfs -L "ROOT" -f ${rootpart}
 
@@ -148,20 +148,19 @@ executeinstall()
     # tweaking Pacman (faster basestrap download + prettier output)
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
     sed -i 's/^#Color/Color\nILoveCandy/' /etc/pacman.conf
-
-    pacman -Sy --noconfirm wget gdisk
-
-    # installing essential packages through basestrap
-    basestrap /mnt base base-devel ${ucode} dinit elogind-dinit opendoas mkinitcpio refind gdisk \
-                   btrfs-progs linux-zen linux-zen-headers linux-firmware \
-                   ntfs-3g dhcpcd-dinit networkmanager-dinit cups-dinit hplip \
-                   system-config-printer \
-                   pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
-
-
     # tweaking Pacman for soon-to-be chrooted system
     cp -f configs/pacman.conf /mnt/etc
     # wget https://github.com/archlinux/svntogit-packages/raw/packages/pacman-mirrorlist/trunk/mirrorlist -O /mnt/etc/pacman.d/mirrorlist-arch
+    
+    # installing needed libraries
+    pacman -Sy --noconfirm wget gdisk
+
+    # installing essential packages through basestrap
+    basestrap /mnt base base-devel ${ucode} dinit elogind-dinit opendoas mkinitcpio grub os-prober efibootmgr gdisk \
+                   btrfs-progs linux-zen linux-zen-headers linux-firmware \
+                   ntfs-3g dhcpcd-dinit networkmanager-dinit cups-dinit hplip \
+                   system-config-printer \
+                   pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber zramen-dinit
 
     # shortcut for configuring doas
     printf "permit persist keepenv $username as root\npermit nopass $username as root cmd /usr/bin/poweroff\npermit nopass $username as root cmd /usr/bin/reboot\n" > /mnt/etc/doas.conf
