@@ -149,6 +149,7 @@ executeinstall()
     sed -i 's/^#ParallelDownloads.*/ParallelDownloads = 10/' /etc/pacman.conf
     sed -i 's/^#Color/Color\nILoveCandy/' /etc/pacman.conf
     # tweaking Pacman for soon-to-be chrooted system
+    mkdir -p /mnt/etc
     cp -f configs/pacman.conf /mnt/etc
     # wget https://github.com/archlinux/svntogit-packages/raw/packages/pacman-mirrorlist/trunk/mirrorlist -O /mnt/etc/pacman.d/mirrorlist-arch
     
