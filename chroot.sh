@@ -32,6 +32,9 @@ ln -s /usr/share/zoneinfo/${timezone} /etc/localtime
 locale-gen
 hwclock --systohc --utc
 
+# dhcpcd should be enabled on boot
+ln -s /etc/dinit.d/dhcpcd /etc/dinit.d/boot.d/
+
 # user configuration
 useradd -mG wheel,video,audio,input -s /bin/bash ${username}
 echo -e "${rootpass}\n${rootpass}\n" | passwd
@@ -48,6 +51,9 @@ grub-mkconfig -o /boot/grub/grub.cfg
 
 # enable arch linux repo support (manual for now...)
 # pacman-key --init populate archlinux
+
+# update pacman repos
+pacman -Syy
 
 # remove temp vars as they're now useless
 rm -rf /tmpvars && /usr/bin/reboot

@@ -156,7 +156,7 @@ executeinstall()
     # installing essential packages through basestrap
     basestrap /mnt base base-devel ${ucode} dinit elogind-dinit opendoas mkinitcpio grub os-prober efibootmgr gdisk \
                    btrfs-progs linux-zen linux-zen-headers linux-firmware \
-                   ntfs-3g dhcpcd-dinit networkmanager-dinit cups-dinit hplip \
+                   ntfs-3g nano dhcpcd-dinit networkmanager-dinit cups-dinit hplip \
                    system-config-printer \
                    pipewire pipewire-alsa pipewire-jack pipewire-pulse wireplumber
                    
@@ -178,7 +178,7 @@ executeinstall()
     # refind-install --root /mnt
 
     # chroot time
-    cp chroot.sh /mnt/root
+    cp chroot.sh /mnt/root && chmod +x /mnt/root/chroot.sh
     artix-chroot /mnt /bin/bash -c 'sh /root/chroot.sh; rm /root/chroot.sh; exit'
 }
 
