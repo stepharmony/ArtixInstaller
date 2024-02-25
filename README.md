@@ -1,6 +1,6 @@
-# ArtixInstaller
+# STATUS: I AM NOW PLANNING TO USE NIXOS, THIS REPO WON'T BE MAINTAINED ANYMORE.
 
-## STATUS: I AM NOW PLANNING TO USE NIXOS, THIS REPO WON'T BE MAINTAINED ANYMORE.
+# ArtixInstaller
 
 ## Introduction
 ArtixInstaller is a barebones artix linux install script, with dinit &amp; btrfs support, and a couple of personal enhancements.\
