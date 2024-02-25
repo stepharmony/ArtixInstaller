@@ -1,6 +1,6 @@
 # ArtixInstaller
 
-### STATUS: this script works both in a VM and on bare metal. the installation is very minimal, you're on your own installing a DE/WM of your choice.
+## STATUS: I AM NOW PLANNING TO USE NIXOS, THIS REPO WON'T BE MAINTAINED ANYMORE.
 
 ## Introduction
 ArtixInstaller is a barebones artix linux install script, with dinit &amp; btrfs support, and a couple of personal enhancements.\
