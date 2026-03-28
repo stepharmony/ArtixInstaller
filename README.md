@@ -1,29 +1,35 @@
-# STATUS: I AM NOW PLANNING TO USE NIXOS, THIS REPO WON'T BE MAINTAINED ANYMORE.
+# STATUS: THIS IS THE TESTING BRANCH, VERY WIP
 
 # ArtixInstaller
 
 ## Introduction
 ArtixInstaller is a barebones artix linux install script, with dinit &amp; btrfs support, and a couple of personal enhancements.\
 this repo will evolve over time, as I gain more knowledge on scripting, linux, and git. any feedback is much appreciated!
+The branch you're currently viewing is the testing branch. As Artix Linux seems tempting again, this branch should be updated constantly, unless the repo is archived at the moment of viewing it.
 
 ## Enhancements
-not all features are implemented yet (they will be over time), just the checked ones:
-- [X] use `doas` instead of `sudo`
-- [X] use `linux-zen` kernel for extra performance
-- [ ] use `pipewire` instead of `pulseaudio` **(sort of, the packages are there)**
-- [ ] add `ananicy-cpp` service for managing each process' CPU priority
-- post-install script
-  - [ ] KDE on Wayland (NVIDIA/AMD)
-  - [ ] faster swap with zram, using zramen service
-  - [ ] low-latency audio settings using pipewire
+### implemented features:
+- [ ] dinit as init system
+- [ ] filesystem choice between ext4 and btrfs
+- [ ] booster as replacement for mkinitcpio (faster, smaller initramfs - with grub auto-detection patch)
+- [ ] custom AUR repo management with aurutils (just the very start)
+### currently considering:
+- [ ] dotfile syncing (optional, my personal dotfile management with chezmoi)
+- [ ] tightening btrfs support with Snapper+snap-pac+grub-btrfs (should be more resilient to broken updates)
+- [ ] improving btrfs mount options
+- [ ] simplifying the aurutils process and guidance
+- [ ] adding zramen for systemd-less zram management
+- [ ] switching from sudo to doas
+- [ ] add xfs to recommended filesystems
+- [ ] options for different linux kernels (zen, cachyos maybe?)
 
 ## Usage
-- In a VM/bare metal PC, boot the latest weekly base ISO (with dinit), and login with the following credentials: `artix` as username and password
+- In a VM/bare metal PC, boot the latest weekly base ISO ~~(with dinit)~~ (weekly dinit ISOs currently unavailable), and login with the following credentials: `artix` as username and password
 - Once logged in, perform the following commands:
 ```bash
 sudo su
 pacman -Sy --noconfirm git
-git clone https://github.com/stepharmony/ArtixInstaller
+git clone https://github.com/stepharmony/ArtixInstaller --single-branch -branch testing-2026
 cd ArtixInstaller/
 chmod +x ./install.sh
 ./install.sh
