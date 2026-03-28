@@ -325,11 +325,12 @@ if [[ "${gpu_vendor}" == "NVIDIA" ]]; then
     echo "--> configuring early KMS start w/ booster..." >&3
     echo "modules_force_load: nvidia,nvidia_modeset,nvidia_uvm,nvidia_drm" > /etc/booster.yaml
     # NVIDIA/XLibre compatibility fix
-    if [[ "${displayserver}" == "xlibre" ]]; then
-        echo "--> fixing NVIDIA+XLibre compatibility..." >&3
-        mkdir -p /etc/X11/xorg.conf.d
-        echo -e 'Section "ServerFlags"\n\tOption "IgnoreABI" "true"\nEndSection' > /etc/X11/xorg.conf.d/xlibre.conf
-    fi
+    # no longer needed, NVIDIA drivers are autodetected since version 25.0.0.16
+    # if [[ "${displayserver}" == "xlibre" ]]; then
+    #     echo "--> fixing NVIDIA+XLibre compatibility..." >&3
+    #     mkdir -p /etc/X11/xorg.conf.d
+    #     echo -e 'Section "ServerFlags"\n\tOption "IgnoreABI" "true"\nEndSection' > /etc/X11/xorg.conf.d/xlibre.conf
+    # fi
 fi
 
 
