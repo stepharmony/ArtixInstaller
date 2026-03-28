@@ -1,4 +1,4 @@
-# STATUS: I AM NOW PLANNING TO USE NIXOS, THIS REPO WON'T BE MAINTAINED ANYMORE.
+## STATUS: revived for the time being, please refer to the testing-2026 branch for newest changes
 
 # ArtixInstaller
 
